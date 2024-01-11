@@ -7,11 +7,11 @@ import os
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())
 token=os.getenv('')
-
+ethan = 917438708163182632
 nest_asyncio.apply()
 # asks what bot you would like to use
 u = input("What user would you like to use? [botboy or ethan]: ")
-
+#u = 'boyboy'
 # checks if the selected bot exists
 if u.lower() == "ethan":
     # passes the bot's token into the program
@@ -53,22 +53,27 @@ class MyClient(discord.Client):
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
+        channel2 = message.channel.id
+        channel = self.get_channel(int(channel2))
         # checks if the message starts with the bots command and if the user running it is thattransgirl
-        if message.content.startswith('!'+u) and message.author.id == 917438708163182632:
+        if message.content.startswith('!help'):
+            await message.delete()
+            await channel.send("Help Section")
+        if message.content.startswith('!status'):
+            m = message.content
+            m = m.replace('!status ','')
+            print(m)
+            await message.delete()
+        if message.content.startswith('!echo') and message.author.id == ethan:
+            m = message.content
+            m = m.replace('!echo ','')
+            os.system(f'echo {m}')
+            await message.delete()
+        if message.content.startswith('!'+u) and message.author.id == ethan:
             # gets the message content
             m = message.content
             # replaces the bot command with nothing
             m = m.replace("!"+u+" ","")
-            if 'status' in m == True:
-		    statusList = '*online\n*do not disturb\n*invisible\n*offline\n*Case sensitive*'
-		    await channel.send(f"{statusList
-		    #x = input(f"{statusList}\nSet {u}'s status to what: ")
-		    #i = input(f"What would you like to set {u}'s custom status to?: ")
-		    
-            # gets the channel that the message was sent in
-            channel2 = message.channel.id
-            # sets the channel that the new message will be sent in
-            channel = self.get_channel(int(channel2))
             # basic logging for messages
             orig = f'{channel}-({message.author}): {m} [{message.created_at.strftime("%Y-%m-%d %H:%M:%S")}]'
             print(orig)
